@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-// Define a simple API endpoint
-router.get('/api', (req, res) => {
+/* GET users listing. */
+router.get('/api', function(req, res, next) {
   res.json({ organization: "Student Cyber Games" });
 });
 
