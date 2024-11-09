@@ -51,5 +51,6 @@ app.use(function(err, req, res, next) {
 // creates the tourdeapp table in the databace
 db.run('CREATE TABLE IF NOT EXISTS tourdeapp (record TEXT)');
 db.close();
+//testovacikomentar
 
 module.exports = app;
