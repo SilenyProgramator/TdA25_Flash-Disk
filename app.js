@@ -18,6 +18,23 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+const express = require('express');
+const app = express();
+const port = 3000;
+
+
+app.get('/api', (req, res) => {
+  const data = {
+    organization: "Student Cyber Games",
+  };
+  
+  res.json(data); 
+});
+
+
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}/api`);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
