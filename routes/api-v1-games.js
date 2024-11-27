@@ -31,3 +31,5 @@ app.get('/api/v1/games/', (req, res) => {
     // odpovedet s kodem 200 (OK)
     res.status(200).json(response);
 });
+
+module.exports = router;
