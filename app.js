@@ -7,6 +7,7 @@ var logger = require('morgan');
 const sqlite3 = require('sqlite3').verbose();
 // creates database with fileneme db.sqlite in directory './data/'
 const fs = require("node:fs");
+const uuid = require('uuid');
 if(!fs.existsSync(path.join(__dirname, 'data'))){
   // create data directory if it does not exist
   fs.mkdirSync(path.join(__dirname, 'data'));
