@@ -53,4 +53,4 @@ Pro více informací si pročtěte [oficiální Express tutoriál](https://expre
 ## Odevzdání
 
 Jak odevzdat svojí aplikaci můžete najít v našich [vzdělávacích materiálech](https://tourde.app/vzdelavaci-materialy/jak-odevzdavat)
-leri je fešák 
+leri je fešák , jakože fakt že je, i Kamil to říkal
