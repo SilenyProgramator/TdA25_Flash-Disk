@@ -54,3 +54,4 @@ Pro více informací si pročtěte [oficiální Express tutoriál](https://expre
 
 Jak odevzdat svojí aplikaci můžete najít v našich [vzdělávacích materiálech](https://tourde.app/vzdelavaci-materialy/jak-odevzdavat)
 leri je fešák , jakože fakt že je, i Kamil to říkal
+btw aplikace se ted nechce spustit, je to jen otazka casu kdy to zase ty moje zmeny smazem
