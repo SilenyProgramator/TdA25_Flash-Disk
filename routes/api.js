@@ -1,22 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db'); // Assuming your database setup is exported here
+const db = require('../db');
 const uuid = require('uuid');
 
-// Define the GET /api/v1/games route
 router.get('/v1/games', (req, res) => {
-    // Generate a new game
     const newGame = {
         uuid: uuid.v4(),
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
-        name: "New Game", // Adjust as needed
-        difficulty: "Medium", // Example value
+        name: "New Game", 
+        difficulty: "Medium", 
         gameState: "In Progress",
-        board: JSON.stringify([["…"]]) // A basic example board
+        board: JSON.stringify([["…"]]) 
     };
-
-    // Insert into the database
     const sql = `
         INSERT INTO games (id, name, difficulty, gameState, board, createdAt, updatedAt)
         VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -36,7 +32,6 @@ router.get('/v1/games', (req, res) => {
             return res.status(500).json({ error: 'Failed to create new game.' });
         }
 
-        // Return the newly created game
         res.status(201).json([{
             uuid: newGame.uuid,
             createdAt: newGame.createdAt,
@@ -47,6 +42,62 @@ router.get('/v1/games', (req, res) => {
             board: JSON.parse(newGame.board)
         }]);
     });
+});
+
+router.post('/v1/games', (req, res) => {
+  const { name, difficulty, board } = req.body;
+
+  const validDifficulties = ['beginner', 'easy', 'medium', 'hard', 'extreme'];
+  if (!name || !difficulty || !board) {
+      return res.status(400).json({ error: 'Missing required fields: name, difficulty, and board.' });
+  }
+
+  if (!validDifficulties.includes(difficulty)) {
+      return res.status(400).json({ error: 'Invalid difficulty level.' });
+  }
+
+  if (!Array.isArray(board) || board.length === 0) {
+      return res.status(400).json({ error: 'Board must be a non-empty array.' });
+  }
+
+  const newGame = {
+      uuid: uuid.v4(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      name: name,
+      difficulty: difficulty,
+      gameState: "In Progress",
+      board: JSON.stringify(board), 
+  };
+  const sql = `
+      INSERT INTO games (id, name, difficulty, gameState, board, createdAt, updatedAt)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  db.run(sql, [
+      newGame.uuid,
+      newGame.name,
+      newGame.difficulty,
+      newGame.gameState,
+      newGame.board,
+      newGame.createdAt,
+      newGame.updatedAt
+  ], function (err) {
+      if (err) {
+          console.error('Error inserting game into database:', err.message);
+          return res.status(500).json({ error: 'Failed to create new game.' });
+      }
+
+      res.status(201).json([{
+          uuid: newGame.uuid,
+          createdAt: newGame.createdAt,
+          updatedAt: newGame.updatedAt,
+          name: newGame.name,
+          difficulty: newGame.difficulty,
+          gameState: newGame.gameState,
+          board: JSON.parse(newGame.board) 
+      }]);
+  });
 });
 
 module.exports = router;
