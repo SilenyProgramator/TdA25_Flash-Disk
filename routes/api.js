@@ -127,5 +127,61 @@ router.get('/v1/games/:id', (req, res) => {
   });
 });
 
+router.put('/v1/games/:id', (req, res) => {
+  const { id } = req.params; 
+  const { name, difficulty, board } = req.body; 
+
+  const validDifficulties = ['beginner', 'easy', 'medium', 'hard', 'extreme'];
+  if (!name || !difficulty || !board) {
+      return res.status(400).json({ error: 'Missing required fields: name, difficulty, and board.' });
+  }
+
+  if (!validDifficulties.includes(difficulty)) {
+      return res.status(400).json({ error: 'Invalid difficulty level.' });
+  }
+
+  if (!Array.isArray(board) || board.length === 0) {
+      return res.status(400).json({ error: 'Board must be a non-empty array.' });
+  }
+
+  const updatedAt = new Date().toISOString(); 
+  const updatedBoard = JSON.stringify(board); 
+
+  const sql = `
+      UPDATE games 
+      SET name = ?, difficulty = ?, gameState = ?, board = ?, updatedAt = ? 
+      WHERE id = ?
+  `;
+
+  db.run(sql, [name, difficulty, 'In Progress', updatedBoard, updatedAt, id], function (err) {
+      if (err) {
+          console.error('Error updating game:', err.message);
+          return res.status(500).json({ error: 'Failed to update game.' });
+      }
+
+      if (this.changes === 0) {
+          return res.status(404).json({ error: 'Game not found.' });
+      }
+
+      const selectSql = 'SELECT * FROM games WHERE id = ?';
+      db.get(selectSql, [id], (err, row) => {
+          if (err) {
+              console.error('Error fetching updated game:', err.message);
+              return res.status(500).json({ error: 'Failed to fetch updated game.' });
+          }
+
+          res.status(200).json([{
+              uuid: row.id,
+              createdAt: row.createdAt,
+              updatedAt: row.updatedAt,
+              name: row.name,
+              difficulty: row.difficulty,
+              gameState: row.gameState,
+              board: JSON.parse(row.board) 
+          }]);
+      });
+  });
+});
+
 
 module.exports = router;
