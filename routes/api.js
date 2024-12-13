@@ -100,4 +100,32 @@ router.post('/v1/games', (req, res) => {
   });
 });
 
+router.get('/v1/games/:id', (req, res) => {
+  const { id } = req.params;  
+
+  const sql = 'SELECT * FROM games WHERE id = ?';
+  
+  db.get(sql, [id], (err, row) => {
+      if (err) {
+          console.error('Error fetching game:', err.message);
+          return res.status(500).json({ error: 'Failed to fetch game data.' });
+      }
+
+      if (!row) {
+          return res.status(404).json({ error: 'Game not found.' });
+      }
+
+      res.status(200).json([{
+          uuid: row.id,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          name: row.name,
+          difficulty: row.difficulty,
+          gameState: row.gameState,
+          board: JSON.parse(row.board) 
+      }]);
+  });
+});
+
+
 module.exports = router;
