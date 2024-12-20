@@ -33,7 +33,7 @@ h1 {
   background: linear-gradient(45deg, #00e5ff, #38ebff, #41ffec, #00fffb, #00d4e8);
   background-size: 300%;
   -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
+  background-clip: text;
   animation: gradientMove 4s infinite;
   text-shadow: 2px 2px 5px rgb(0, 0, 0, 0.1);
   margin: 0;
