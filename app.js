@@ -17,7 +17,7 @@ const db = new sqlite3.Database(path.join(__dirname, 'data','db.sqlite'));
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
-
+var gameRouter = require('./routes/game');
 
 var app = express();
 
@@ -36,7 +36,7 @@ app.use(express.json());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiRouter);
-
+app.use("/game", gameRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
