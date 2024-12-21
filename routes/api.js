@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
-
 const db = require('../db'); // Assume this is a module that connects to your database
 
 const router = express.Router();
@@ -194,15 +193,18 @@ router.delete('/games/:uuid', (req, res) => {
 });
 
 router.get('/game', (req, res) => {
-    // This is a placeholder for the main page. Replace with actual HTML content.
-    res.status(200).type('html').send('<html><body>Main Page</body></html>');
+    // Replace with actual HTML content for the main page
+    const htmlContent = '<html><body>Main Page</body></html>';
+    res.status(200).type('html').send(htmlContent);
 });
 
 router.get('/game/:uuid', (req, res) => {
     const { uuid } = req.params;
 
-    // This is a placeholder for the game load page. Replace with actual HTML content.
-    res.status(200).type('html').send('<html><body>Game Page: ' + uuid + '</body></html>');
+    // Replace with actual HTML content for the game load page
+    const htmlContent = `<html><body>Game Page: ${uuid}</body></html>`;
+    res.status(200).type('html').send(htmlContent);
 });
 
 module.exports = router;
+
