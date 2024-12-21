@@ -1,37 +1,18 @@
 const express = require('express');
-const router = express.Router();
-const db = require('../db');
+const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 
-// Helper function to validate board
+const db = require('./db'); // Assume this is a module that connects to your database
+
+const router = express.Router();
+router.use(bodyParser.json());
+
 function validateBoard(board) {
-    if (!Array.isArray(board) || board.length !== 15) {
-        return false;
-    }
-    for (let i = 0; i < 15; i++) {
-        if (!Array.isArray(board[i]) || board[i].length !== 15) {
-            return false;
-        }
-        for (let j = 0; j < 15; j++) {
-            if (!['X', 'O', ''].includes(board[i][j])) {
-                return false;
-            }
-        }
+    if (!Array.isArray(board) || board.length !== 15) return false;
+    for (let i = 0; i < board.length; i++) {
+        if (!Array.isArray(board[i]) || board[i].length !== 15) return false;
     }
     return true;
-}
-
-// Helper function to generate initial board
-function generateInitialBoard() {
-    let board = [];
-    for (let i = 0; i < 15; i++) {
-        let row = [];
-        for (let j = 0; j < 15; j++) {
-            row.push('');
-        }
-        board.push(row);
-    }
-    return JSON.stringify(board);
 }
 
 router.post('/games', (req, res) => {
@@ -210,6 +191,18 @@ router.delete('/games/:uuid', (req, res) => {
 
         res.status(204).send();
     });
+});
+
+router.get('/game', (req, res) => {
+    // This is a placeholder for the main page. Replace with actual HTML content.
+    res.status(200).type('html').send('<html><body>Main Page</body></html>');
+});
+
+router.get('/game/:uuid', (req, res) => {
+    const { uuid } = req.params;
+
+    // This is a placeholder for the game load page. Replace with actual HTML content.
+    res.status(200).type('html').send('<html><body>Game Page: ' + uuid + '</body></html>');
 });
 
 module.exports = router;
