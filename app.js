@@ -35,7 +35,7 @@ app.use(express.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api', apiRouter);
+app.use('/api/v1', apiRouter);
 app.use("/game", gameRouter);
 
 // catch 404 and forward to error handler
