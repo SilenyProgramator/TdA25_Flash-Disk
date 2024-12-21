@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 
-const db = require('./db'); // Assume this is a module that connects to your database
+const db = require('../db'); // Assume this is a module that connects to your database
 
 const router = express.Router();
 router.use(bodyParser.json());
