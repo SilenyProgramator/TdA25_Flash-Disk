@@ -7,7 +7,7 @@ const db = new sqlite3.Database('./games.db', (err) => {
         console.log('Connected to SQLite database.');
         db.run(
             `CREATE TABLE IF NOT EXISTS games (
-                id TEXT PRIMARY KEY,
+                uuid TEXT PRIMARY KEY,
                 name TEXT,
                 difficulty TEXT,
                 gameState TEXT,
